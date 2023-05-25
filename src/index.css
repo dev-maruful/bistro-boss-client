@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.featured-section {
+    background: linear-gradient(0deg, rgba(21, 21, 21, 0.7), rgba(21, 21, 21, 0.7)),
+        url('./assets/home/featured.jpg');
+    background-attachment: fixed;
+}
