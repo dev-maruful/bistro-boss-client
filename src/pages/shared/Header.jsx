@@ -11,13 +11,13 @@ const Header = () => {
         <Link to="">Contact Us</Link>
       </li>
       <li className="uppercase text-base font-bold">
-        <Link to="">dashboard</Link>
-      </li>
-      <li className="uppercase text-base font-bold">
         <Link to="/menu">our menu</Link>
       </li>
       <li className="uppercase text-base font-bold">
         <Link to="/orderPage/salad">our shop</Link>
+      </li>
+      <li className="uppercase text-base font-bold">
+        <Link to="/login">Login</Link>
       </li>
     </>
   );
@@ -57,7 +57,7 @@ const Header = () => {
           </span>
         </div>
       </div>
-      <div className="navbar-end hidden lg:flex">
+      <div className="hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
     </div>
