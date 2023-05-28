@@ -3,15 +3,18 @@ import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
 
 const SignUp = () => {
-  const { createUser, googleLogin } = useContext(AuthContext);
+  const { createUser, googleLogin, updateUserProfile } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
@@ -19,7 +22,16 @@ const SignUp = () => {
     createUser(data.email, data.password)
       .then((result) => {
         console.log(result.user);
-        toast.success("Registration Successful");
+        updateUserProfile(data.name, data.photoURL)
+          .then(() => {
+            toast.success("Registration Successful");
+            reset();
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error.message);
+            toast.error(error.code);
+          });
       })
       .catch((error) => {
         console.log(error.message);
@@ -67,6 +79,22 @@ const SignUp = () => {
                 />
                 {errors.name && (
                   <span className="text-error">Name is required</span>
+                )}
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text text-xl font-semibold">
+                    Photo URL
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  {...register("photoURL", { required: true })}
+                  placeholder="Photo URL"
+                  className="input input-bordered text-[#A1A1A1] w-full"
+                />
+                {errors.photoURL && (
+                  <span className="text-error">Photo URL is required</span>
                 )}
               </div>
               <div className="form-control">
