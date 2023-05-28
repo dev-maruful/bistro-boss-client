@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import bg from "../../assets/others/authentication.png";
 import loginImage from "../../assets/others/authentication2.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
@@ -15,9 +15,12 @@ import { Helmet } from "react-helmet-async";
 import { toast } from "react-hot-toast";
 
 const Login = () => {
-  const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
   const { login, googleLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -33,6 +36,7 @@ const Login = () => {
       .then((result) => {
         console.log(result.user);
         toast.success("User Login Successful");
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         console.log(err.message);
