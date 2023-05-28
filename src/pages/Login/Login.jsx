@@ -8,10 +8,14 @@ import {
   LoadCanvasTemplateNoReload,
   validateCaptcha,
 } from "react-simple-captcha";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 
 const Login = () => {
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
+  const { login, googleLogin } = useContext(AuthContext);
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -22,6 +26,14 @@ const Login = () => {
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
+
+    login(email, password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
 
   const handleValidateCaptcha = () => {
@@ -33,13 +45,23 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    googleLogin()
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
   return (
     <div className="hero min-h-screen">
       <div className="hero-content flex-col gap-0">
         <div className="text-center mb-3">
           <h1 className="text-4xl font-bold">Login</h1>
         </div>
-        <div className="card max-w-lg">
+        <div className="card">
           <form onSubmit={handleLogin} className="card-body p-0 gap-0">
             <div className="form-control">
               <label className="label">
@@ -94,12 +116,29 @@ const Login = () => {
               </button>
             </div>
           </form>
-          <p className="text-base font-bold text-center text-[#D1A054B2]">
+          <p className="text-base font-bold text-center text-[#D1A054B2] mb-3">
             New here?{" "}
             <Link to="/register" className="hover:underline">
               Create a New Account
             </Link>
           </p>
+          <p className="text-center mb-3 text-xl font-medium">
+            Or sign in with
+          </p>
+          <div className="flex justify-center gap-5">
+            <button className="btn btn-circle btn-outline hover:bg-[#D1A054B2] hover:border-none">
+              <FaFacebookF></FaFacebookF>
+            </button>
+            <button
+              onClick={handleGoogleLogin}
+              className="btn btn-circle btn-outline hover:bg-[#D1A054B2] hover:border-none"
+            >
+              <FaGoogle></FaGoogle>
+            </button>
+            <button className="btn btn-circle btn-outline hover:bg-[#D1A054B2] hover:border-none">
+              <FaGithub></FaGithub>
+            </button>
+          </div>
         </div>
       </div>
     </div>
