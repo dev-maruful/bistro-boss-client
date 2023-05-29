@@ -7,3 +7,7 @@
         url('./assets/home/featured.jpg');
     background-attachment: fixed;
 }
+
+.active {
+    @apply text-white bg-transparent
+}

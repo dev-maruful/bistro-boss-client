@@ -11,7 +11,7 @@ import {
   FaShoppingCart,
   FaWallet,
 } from "react-icons/fa";
-import { Link, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   return (
@@ -28,67 +28,80 @@ const Dashboard = () => {
       </div>
       <div className="drawer-side bg-[#D1A054]">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-        <ul className="menu p-4 w-80 text-base-content">
+        <ul className="menu p-4 text-base-content">
+          <Link to="/">
+            <li className="uppercase mb-[10px]">
+              <span className="block pb-0 text-2xl font-black">
+                bistro boss
+              </span>
+              <span className="text-lg pt-0 font-bold tracking-[0.25em]">
+                restaurant
+              </span>
+            </li>
+          </Link>
           <li className="mb-2 text-base uppercase font-medium">
-            <Link>
+            <NavLink
+              to="/dashboard/userhome"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
               <FaHome className="mr-3"></FaHome>
               user home
-            </Link>
+            </NavLink>
           </li>
           <li className="mb-2 text-base uppercase font-medium">
-            <Link>
+            <NavLink to="/dashboard/reservation">
               <FaCalendarAlt className="mr-3"></FaCalendarAlt>
               reservation
-            </Link>
+            </NavLink>
           </li>
           <li className="mb-2 text-base uppercase font-medium">
-            <Link>
+            <NavLink to="/dashboard/history">
               <FaWallet className="mr-3"></FaWallet>
               payment history
-            </Link>
+            </NavLink>
           </li>
           <li className="mb-2 text-base uppercase font-medium">
-            <Link>
+            <NavLink to="/dashboard/mycart">
               <FaShoppingCart className="mr-3"></FaShoppingCart>
               my cart
-            </Link>
+            </NavLink>
           </li>
           <li className="mb-2 text-base uppercase font-medium">
-            <Link>
+            <NavLink to="/dashboard/review">
               <FaComments className="mr-3"></FaComments>
               add review
-            </Link>
+            </NavLink>
           </li>
           <li className="mb-2 text-base uppercase font-medium">
-            <Link>
+            <NavLink to="/dashboard/mybooking">
               <FaCalendarCheck className="mr-3"></FaCalendarCheck>
               my booking
-            </Link>
+            </NavLink>
           </li>
           <hr className="text-white mb-2" />
           <li className="mb-2 text-base uppercase font-medium">
-            <Link to="/">
+            <NavLink to="/">
               <FaHome className="mr-3"></FaHome>
               home
-            </Link>
+            </NavLink>
           </li>
           <li className="mb-2 text-base uppercase font-medium">
-            <Link to="/menu">
+            <NavLink to="/menu">
               <FaBars className="mr-3"></FaBars>
               menu
-            </Link>
+            </NavLink>
           </li>
           <li className="mb-2 text-base uppercase font-medium">
-            <Link to="/orderPage/salad">
+            <NavLink to="/orderPage/salad">
               <FaShoppingBag className="mr-3"></FaShoppingBag>
               shop
-            </Link>
+            </NavLink>
           </li>
           <li className="mb-2 text-base uppercase font-medium">
-            <Link>
+            <NavLink to="/contact">
               <FaEnvelope className="mr-3"></FaEnvelope>
               contact
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </div>
