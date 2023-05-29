@@ -2,9 +2,12 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
+import { FaCartPlus } from "react-icons/fa";
+import useCart from "../../hooks/useCart";
 
 const Header = () => {
   const { user, logout } = useContext(AuthContext);
+  const [cart] = useCart();
 
   const handleLogout = () => {
     logout()
@@ -28,14 +31,33 @@ const Header = () => {
       <li className="uppercase text-base font-bold">
         <Link to="/orderPage/salad">our shop</Link>
       </li>
+      <li>
+        <Link to="/dashboard/mycart">
+          <button className="btn bg-transparent border-none hover:bg-transparent">
+            <FaCartPlus className="text-2xl"></FaCartPlus>
+            <div className="badge badge-error">+{cart?.length || 0}</div>
+          </button>
+        </Link>
+      </li>
       {user ? (
         <li>
           <button
             onClick={handleLogout}
-            className="uppercase text-base font-bold"
+            className="uppercase text-base font-bold mr-0 pr-1"
           >
             Logout
           </button>
+          <div className="avatar">
+            <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+              <img
+                src={
+                  user?.photoURL
+                    ? user?.photoURL
+                    : "https://img.freepik.com/free-icon/user_318-552176.jpg?size=626&ext=jpg&ga=GA1.1.857116354.1678803730&semt=sph"
+                }
+              />
+            </div>
+          </div>
         </li>
       ) : (
         <li className="uppercase text-base font-bold">
