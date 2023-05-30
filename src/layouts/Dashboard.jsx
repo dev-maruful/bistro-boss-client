@@ -12,8 +12,11 @@ import {
   FaWallet,
 } from "react-icons/fa";
 import { Link, NavLink, Outlet } from "react-router-dom";
+import useCart from "../hooks/useCart";
 
 const Dashboard = () => {
+  const [cart] = useCart();
+
   return (
     <div className="drawer drawer-mobile">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -64,6 +67,7 @@ const Dashboard = () => {
             <NavLink to="/dashboard/mycart">
               <FaShoppingCart className="mr-3"></FaShoppingCart>
               my cart
+              <div className="badge badge-error">+{cart?.length || 0}</div>
             </NavLink>
           </li>
           <li className="mb-2 text-base uppercase font-medium">
