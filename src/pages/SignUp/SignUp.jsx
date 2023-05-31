@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
 
@@ -17,6 +17,10 @@ const SignUp = () => {
     reset,
     formState: { errors },
   } = useForm();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+
   const onSubmit = (data) => {
     console.log(data);
     createUser(data.email, data.password)
@@ -24,9 +28,25 @@ const SignUp = () => {
         console.log(result.user);
         updateUserProfile(data.name, data.photoURL)
           .then(() => {
-            toast.success("Registration Successful");
-            reset();
-            navigate("/");
+            const saveUser = {
+              name: data.name,
+              email: data.email,
+            };
+            fetch("http://localhost:5000/users", {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(saveUser),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.insertedId) {
+                  toast.success("Registration Successful");
+                  reset();
+                  navigate("/");
+                }
+              });
           })
           .catch((error) => {
             console.log(error.message);
@@ -42,8 +62,23 @@ const SignUp = () => {
   const handleGoogleLogin = () => {
     googleLogin()
       .then((result) => {
-        console.log(result.user);
-        toast.success("User Login Successful");
+        const loggedInUser = result.user;
+        const saveUser = {
+          name: loggedInUser.displayName,
+          email: loggedInUser.email,
+        };
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(saveUser),
+        })
+          .then((res) => res.json())
+          .then(() => {
+            navigate(from, { replace: true });
+            toast.success("User Login Successful");
+          });
       })
       .catch((err) => {
         console.log(err.message);
