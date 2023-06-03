@@ -15,20 +15,21 @@ const useCart = () => {
       const response = await axiosSecure(`/carts?email=${user?.email}`);
       return response.data;
     },
-    // queryFn: async () => {
-    //   const response = await fetch(
-    //     `http://localhost:5000/carts?email=${user?.email}`,
-    //     {
-    //       headers: {
-    //         authorization: `Bearer ${token}`,
-    //       },
-    //     }
-    //   );
-    //   return response.json();
-    // },
   });
 
   return [cart, refetch];
 };
 
 export default useCart;
+
+// queryFn: async () => {
+//   const response = await fetch(
+//     `http://localhost:5000/carts?email=${user?.email}`,
+//     {
+//       headers: {
+//         authorization: `Bearer ${token}`,
+//       },
+//     }
+//   );
+//   return response.json();
+// },

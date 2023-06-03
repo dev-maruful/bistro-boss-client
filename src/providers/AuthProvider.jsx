@@ -49,7 +49,7 @@ const AuthProvider = ({ children }) => {
       photoURL: photo,
     });
   };
-
+  const [token, setToken] = useState("");
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -61,9 +61,10 @@ const AuthProvider = ({ children }) => {
           .then((data) => {
             localStorage.setItem("access_token", data.data.token);
             setLoading(false);
+            setToken(data.data.token);
           });
       } else {
-        localStorage.removeItem("access_token");
+        // localStorage.removeItem("access_token");
       }
     });
     return () => unsubscribe();
@@ -78,6 +79,7 @@ const AuthProvider = ({ children }) => {
     logout,
     googleLogin,
     updateUserProfile,
+    token,
   };
 
   return (

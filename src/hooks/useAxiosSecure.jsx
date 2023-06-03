@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 
 const useAxiosSecure = () => {
-  const { logout } = useContext(AuthContext);
+  const { logout, token } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const axiosSecure = axios.create({
@@ -13,7 +13,6 @@ const useAxiosSecure = () => {
 
   useEffect(() => {
     axiosSecure.interceptors.request.use((config) => {
-      const token = localStorage.getItem("access-token");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -33,7 +32,7 @@ const useAxiosSecure = () => {
         return Promise.reject(error);
       }
     );
-  }, [logout, navigate, axiosSecure]);
+  }, [logout, navigate, axiosSecure, token]);
 
   return [axiosSecure];
 };
