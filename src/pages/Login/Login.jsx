@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import bg from "../../assets/others/authentication.png";
-import loginImage from "../../assets/others/authentication2.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
-  LoadCanvasTemplateNoReload,
   validateCaptcha,
 } from "react-simple-captcha";
 import { useContext } from "react";
