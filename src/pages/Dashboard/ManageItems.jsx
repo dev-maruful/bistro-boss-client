@@ -3,9 +3,33 @@ import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../components/SectionTitle";
 import useMenu from "../../hooks/useMenu";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const ManageItems = () => {
-  const [menu] = useMenu();
+  const [menu, , refetch] = useMenu();
+  const [axiosSecure] = useAxiosSecure();
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/menu/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            Swal.fire("Deleted!", "Item has been deleted.", "success");
+            refetch();
+          }
+        });
+      }
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#F3F3F3] w-full">
