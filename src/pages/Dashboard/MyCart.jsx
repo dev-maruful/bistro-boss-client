@@ -6,6 +6,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const MyCart = () => {
   const [cart, refetch] = useCart();
@@ -55,9 +56,11 @@ const MyCart = () => {
           <h3 className="uppercase text-3xl font-bold">
             total price: ${total}
           </h3>
-          <button className="btn bg-[#D1A054] text-white border-none text-xl font-bold">
-            pay
-          </button>
+          <Link to="/dashboard/payment">
+            <button className="btn bg-[#D1A054] text-white border-none text-xl font-bold">
+              pay
+            </button>
+          </Link>
         </div>
         <div className="overflow-x-auto">
           <table className="table w-full">
