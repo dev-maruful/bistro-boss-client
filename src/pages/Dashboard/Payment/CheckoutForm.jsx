@@ -1,11 +1,22 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import React from "react";
-import { toast } from "react-hot-toast";
+import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { AuthContext } from "../../../providers/AuthProvider";
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ price }) => {
+  const { user } = useContext(AuthContext);
   const stripe = useStripe();
   const elements = useElements();
+  const [axiosSecure] = useAxiosSecure();
+  const [clientSecret, setClientSecret] = useState("");
+
+  useEffect(() => {
+    axiosSecure.post("/create-payment-intent", { price }).then((res) => {
+      console.log(res.data.clientSecret);
+      setClientSecret(res.data.clientSecret);
+    });
+  }, [price, axiosSecure]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -35,6 +46,23 @@ const CheckoutForm = () => {
     } else {
       console.log("[PaymentMethod]", paymentMethod);
     }
+
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: user?.name || "anonymous",
+            email: user?.email || "unknown",
+          },
+        },
+      });
+
+    if (confirmError) {
+      console.log(confirmError);
+    } else {
+      console.log(paymentIntent);
+    }
   };
 
   return (
@@ -58,7 +86,7 @@ const CheckoutForm = () => {
       <button
         className="btn btn-primary btn-wide mt-16"
         type="submit"
-        disabled={!stripe}
+        disabled={!stripe || !clientSecret}
       >
         Pay
       </button>
