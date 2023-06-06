@@ -1,7 +1,6 @@
 import { Elements } from "@stripe/react-stripe-js";
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import { FaRegCreditCard } from "react-icons/fa";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 import useCart from "../../../hooks/useCart";
@@ -21,7 +20,7 @@ const Payment = () => {
       <h3 className="text-4xl mb-16">Payment</h3>
       <div className="mb-16 w-[500px] mx-auto">
         <Elements stripe={stripePromise}>
-          <CheckoutForm price={price}></CheckoutForm>
+          <CheckoutForm cart={cart} price={price}></CheckoutForm>
         </Elements>
       </div>
     </div>
