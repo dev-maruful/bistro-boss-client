@@ -4,10 +4,12 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
 import { FaCartPlus } from "react-icons/fa";
 import useCart from "../../hooks/useCart";
+import useAdmin from "../../hooks/useAdmin";
 
 const Header = () => {
   const { user, logout } = useContext(AuthContext);
   const [cart] = useCart();
+  const [isAdmin] = useAdmin();
 
   const handleLogout = () => {
     logout()
@@ -25,6 +27,15 @@ const Header = () => {
       <li className="uppercase text-base font-bold">
         <Link to="">Contact Us</Link>
       </li>
+      {isAdmin ? (
+        <li className="uppercase text-base font-bold">
+          <Link to="/dashboard/adminhome">Dashboard</Link>
+        </li>
+      ) : (
+        <li className="uppercase text-base font-bold">
+          <Link to="/dashboard/userhome">Dashboard</Link>
+        </li>
+      )}
       <li className="uppercase text-base font-bold">
         <Link to="/menu">our menu</Link>
       </li>
